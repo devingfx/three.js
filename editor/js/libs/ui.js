@@ -259,746 +259,720 @@ UI.Text = class UIText extends UI.Element {
 
 // Input
 
-UI.Input = function ( text ) {
+UI.Input = class UIInput extends UI.Element {
 
-	UI.Element.call( this );
+	constructor ( text ) {
 
-	var scope = this;
+		super( 'input' );
 
-	var dom = document.createElement( 'input' );
-	dom.className = 'Input';
-	dom.style.padding = '2px';
-	dom.style.border = '1px solid transparent';
+		var scope = this;
 
-	dom.addEventListener( 'keydown', function ( event ) {
+		this.dom.className = 'Input';
+		this.dom.style.padding = '2px';
+		this.dom.style.border = '1px solid transparent';
 
-		event.stopPropagation();
+		this.dom.addEventListener( 'keydown', function ( event ) {
 
-	}, false );
+			event.stopPropagation();
 
-	this.dom = dom;
-	this.setValue( text );
+		}, false );
 
-	return this;
+		this.setValue( text );
 
-};
+	}
 
-UI.Input.prototype = Object.create( UI.Element.prototype );
-UI.Input.prototype.constructor = UI.Input;
+	getValue () {
 
-UI.Input.prototype.getValue = function () {
+		return this.dom.value;
 
-	return this.dom.value;
+	}
 
-};
+	setValue ( value ) {
 
-UI.Input.prototype.setValue = function ( value ) {
+		this.dom.value = value;
 
-	this.dom.value = value;
+		return this;
 
-	return this;
+	}
 
-};
+}
 
 
 // TextArea
 
-UI.TextArea = function () {
+UI.TextArea = class UITextArea extends UI.Element {
 
-	UI.Element.call( this );
+	constructor( ) {
 
-	var scope = this;
+		super( 'textarea' );
 
-	var dom = document.createElement( 'textarea' );
-	dom.className = 'TextArea';
-	dom.style.padding = '2px';
-	dom.spellcheck = false;
+		var scope = this;
 
-	dom.addEventListener( 'keydown', function ( event ) {
+		this.dom.className = 'TextArea';
+		this.dom.style.padding = '2px';
+		this.dom.spellcheck = false;
 
-		event.stopPropagation();
+		this.dom.addEventListener( 'keydown', function ( event ) {
 
-		if ( event.keyCode === 9 ) {
+			event.stopPropagation();
 
-			event.preventDefault();
+			if ( event.keyCode === 9 ) {
 
-			var cursor = dom.selectionStart;
+				event.preventDefault();
 
-			dom.value = dom.value.substring( 0, cursor ) + '\t' + dom.value.substring( cursor );
-			dom.selectionStart = cursor + 1;
-			dom.selectionEnd = dom.selectionStart;
+				var cursor = scope.dom.selectionStart;
 
-		}
+				scope.dom.value = scope.dom.value.substring( 0, cursor ) + '\t' + scope.dom.value.substring( cursor );
+				scope.dom.selectionStart = cursor + 1;
+				scope.dom.selectionEnd = scope.dom.selectionStart;
 
-	}, false );
+			}
 
-	this.dom = dom;
+		}, false );
 
-	return this;
+	}
 
-};
+	getValue () {
 
-UI.TextArea.prototype = Object.create( UI.Element.prototype );
-UI.TextArea.prototype.constructor = UI.TextArea;
+		return this.dom.value;
 
-UI.TextArea.prototype.getValue = function () {
+	}
 
-	return this.dom.value;
+	setValue ( value ) {
 
-};
+		this.dom.value = value;
 
-UI.TextArea.prototype.setValue = function ( value ) {
+		return this;
 
-	this.dom.value = value;
+	}
 
-	return this;
-
-};
+}
 
 
 // Select
 
-UI.Select = function () {
+UI.Select = class UISelect extends UI.Element {
 
-	UI.Element.call( this );
+	constructor() {
 
-	var scope = this;
+		super( 'select' );
 
-	var dom = document.createElement( 'select' );
-	dom.className = 'Select';
-	dom.style.padding = '2px';
+		var scope = this;
 
-	this.dom = dom;
-
-	return this;
-
-};
-
-UI.Select.prototype = Object.create( UI.Element.prototype );
-UI.Select.prototype.constructor = UI.Select;
-
-UI.Select.prototype.setMultiple = function ( boolean ) {
-
-	this.dom.multiple = boolean;
-
-	return this;
-
-};
-
-UI.Select.prototype.setOptions = function ( options ) {
-
-	var selected = this.dom.value;
-
-	while ( this.dom.children.length > 0 ) {
-
-		this.dom.removeChild( this.dom.firstChild );
+		this.dom.className = 'Select';
+		this.dom.style.padding = '2px';
 
 	}
 
-	for ( var key in options ) {
+	setMultiple ( boolean ) {
 
-		var option = document.createElement( 'option' );
-		option.value = key;
-		option.innerHTML = options[ key ];
-		this.dom.appendChild( option );
+		this.dom.multiple = boolean;
 
-	}
-
-	this.dom.value = selected;
-
-	return this;
-
-};
-
-UI.Select.prototype.getValue = function () {
-
-	return this.dom.value;
-
-};
-
-UI.Select.prototype.setValue = function ( value ) {
-
-	value = String( value );
-
-	if ( this.dom.value !== value ) {
-
-		this.dom.value = value;
+		return this;
 
 	}
 
-	return this;
+	setOptions ( options ) {
 
-};
+		var selected = this.dom.value;
+
+		while ( this.dom.children.length > 0 ) {
+
+			this.dom.removeChild( this.dom.firstChild );
+
+		}
+
+		for ( var key in options ) {
+
+			var option = document.createElement( 'option' );
+			option.value = key;
+			option.innerHTML = options[ key ];
+			this.dom.appendChild( option );
+
+		}
+
+		this.dom.value = selected;
+
+		return this;
+
+	}
+
+	getValue () {
+
+		return this.dom.value;
+
+	}
+
+	setValue ( value ) {
+
+		value = String( value );
+
+		if ( this.dom.value !== value ) {
+
+			this.dom.value = value;
+
+		}
+
+		return this;
+
+	}
+
+}
+
 
 // Checkbox
 
-UI.Checkbox = function ( boolean ) {
+UI.Checkbox = class UICheckbox extends UI.Element {
+	
+	constructor( boolean ) {
 
-	UI.Element.call( this );
+		super( 'input' );
 
-	var scope = this;
+		var scope = this;
 
-	var dom = document.createElement( 'input' );
-	dom.className = 'Checkbox';
-	dom.type = 'checkbox';
+		this.dom.className = 'Checkbox';
+		this.dom.type = 'checkbox';
 
-	this.dom = dom;
-	this.setValue( boolean );
-
-	return this;
-
-};
-
-UI.Checkbox.prototype = Object.create( UI.Element.prototype );
-UI.Checkbox.prototype.constructor = UI.Checkbox;
-
-UI.Checkbox.prototype.getValue = function () {
-
-	return this.dom.checked;
-
-};
-
-UI.Checkbox.prototype.setValue = function ( value ) {
-
-	if ( value !== undefined ) {
-
-		this.dom.checked = value;
+		this.setValue( boolean );
 
 	}
 
-	return this;
+	getValue () {
 
-};
+		return this.dom.checked;
+
+	}
+
+	setValue ( value ) {
+
+		if ( value !== undefined ) {
+
+			this.dom.checked = value;
+
+		}
+
+		return this;
+
+	}
+
+}
 
 
 // Color
 
-UI.Color = function () {
+UI.Color = class UIColor extends UI.Element {
+	
+	constructor() {
 
-	UI.Element.call( this );
+		super( 'input' );
 
-	var scope = this;
+		var scope = this;
 
-	var dom = document.createElement( 'input' );
-	dom.className = 'Color';
-	dom.style.width = '64px';
-	dom.style.height = '17px';
-	dom.style.border = '0px';
-	dom.style.padding = '2px';
-	dom.style.backgroundColor = 'transparent';
+		this.dom.className = 'Color';
+		this.dom.style.width = '64px';
+		this.dom.style.height = '17px';
+		this.dom.style.border = '0px';
+		this.dom.style.padding = '2px';
+		this.dom.style.backgroundColor = 'transparent';
 
-	try {
+		try {
 
-		dom.type = 'color';
-		dom.value = '#ffffff';
+			this.dom.type = 'color';
+			this.dom.value = '#ffffff';
 
-	} catch ( exception ) {}
+		} catch ( exception ) {}
 
-	this.dom = dom;
+	}
 
-	return this;
+	getValue () {
 
-};
+		return this.dom.value;
 
-UI.Color.prototype = Object.create( UI.Element.prototype );
-UI.Color.prototype.constructor = UI.Color;
+	}
 
-UI.Color.prototype.getValue = function () {
+	getHexValue () {
 
-	return this.dom.value;
+		return parseInt( this.dom.value.substr( 1 ), 16 );
 
-};
+	}
 
-UI.Color.prototype.getHexValue = function () {
+	setValue ( value ) {
 
-	return parseInt( this.dom.value.substr( 1 ), 16 );
+		this.dom.value = value;
 
-};
+		return this;
 
-UI.Color.prototype.setValue = function ( value ) {
+	}
 
-	this.dom.value = value;
+	setHexValue ( hex ) {
 
-	return this;
+		this.dom.value = '#' + ( '000000' + hex.toString( 16 ) ).slice( - 6 );
 
-};
+		return this;
 
-UI.Color.prototype.setHexValue = function ( hex ) {
+	}
 
-	this.dom.value = '#' + ( '000000' + hex.toString( 16 ) ).slice( - 6 );
-
-	return this;
-
-};
+}
 
 
 // Number
 
-UI.Number = function ( number ) {
+UI.Number = class UINumber extends UI.Element {
+	
+	constructor( number ) {
 
-	UI.Element.call( this );
+		super( 'input' );
 
-	var scope = this;
+		var scope = this;
 
-	var dom = document.createElement( 'input' );
-	dom.className = 'Number';
-	dom.value = '0.00';
+		var dom = this.dom;
+		dom.className = 'Number';
+		dom.value = '0.00';
 
-	dom.addEventListener( 'keydown', function ( event ) {
+		dom.addEventListener( 'keydown', function ( event ) {
 
-		event.stopPropagation();
+			event.stopPropagation();
 
-		if ( event.keyCode === 13 ) dom.blur();
+			if ( event.keyCode === 13 ) dom.blur();
 
-	}, false );
+		}, false );
 
-	this.value = 0;
+		this.value = 0;
 
-	this.min = - Infinity;
-	this.max = Infinity;
+		this.min = - Infinity;
+		this.max = Infinity;
 
-	this.precision = 2;
-	this.step = 1;
-	this.unit = '';
+		this.precision = 2;
+		this.step = 1;
+		this.unit = '';
 
-	this.dom = dom;
+		this.dom = dom;
 
-	this.setValue( number );
+		this.setValue( number );
 
-	var changeEvent = document.createEvent( 'HTMLEvents' );
-	changeEvent.initEvent( 'change', true, true );
+		var changeEvent = document.createEvent( 'HTMLEvents' );
+		changeEvent.initEvent( 'change', true, true );
 
-	var distance = 0;
-	var onMouseDownValue = 0;
+		var distance = 0;
+		var onMouseDownValue = 0;
 
-	var pointer = [ 0, 0 ];
-	var prevPointer = [ 0, 0 ];
+		var pointer = [ 0, 0 ];
+		var prevPointer = [ 0, 0 ];
 
-	function onMouseDown( event ) {
+		function onMouseDown( event ) {
 
-		event.preventDefault();
+			event.preventDefault();
 
-		distance = 0;
+			distance = 0;
 
-		onMouseDownValue = scope.value;
+			onMouseDownValue = scope.value;
 
-		prevPointer = [ event.clientX, event.clientY ];
+			prevPointer = [ event.clientX, event.clientY ];
 
-		document.addEventListener( 'mousemove', onMouseMove, false );
-		document.addEventListener( 'mouseup', onMouseUp, false );
-
-	}
-
-	function onMouseMove( event ) {
-
-		var currentValue = scope.value;
-
-		pointer = [ event.clientX, event.clientY ];
-
-		distance += ( pointer[ 0 ] - prevPointer[ 0 ] ) - ( pointer[ 1 ] - prevPointer[ 1 ] );
-
-		var value = onMouseDownValue + ( distance / ( event.shiftKey ? 5 : 50 ) ) * scope.step;
-		value = Math.min( scope.max, Math.max( scope.min, value ) );
-
-		if ( currentValue !== value ) {
-
-			scope.setValue( value );
-			dom.dispatchEvent( changeEvent );
+			document.addEventListener( 'mousemove', onMouseMove, false );
+			document.addEventListener( 'mouseup', onMouseUp, false );
 
 		}
 
-		prevPointer = [ event.clientX, event.clientY ];
+		function onMouseMove( event ) {
 
-	}
+			var currentValue = scope.value;
 
-	function onMouseUp( event ) {
+			pointer = [ event.clientX, event.clientY ];
 
-		document.removeEventListener( 'mousemove', onMouseMove, false );
-		document.removeEventListener( 'mouseup', onMouseUp, false );
+			distance += ( pointer[ 0 ] - prevPointer[ 0 ] ) - ( pointer[ 1 ] - prevPointer[ 1 ] );
 
-		if ( Math.abs( distance ) < 2 ) {
+			var value = onMouseDownValue + ( distance / ( event.shiftKey ? 5 : 50 ) ) * scope.step;
+			value = Math.min( scope.max, Math.max( scope.min, value ) );
 
-			dom.focus();
-			dom.select();
+			if ( currentValue !== value ) {
+
+				scope.setValue( value );
+				dom.dispatchEvent( changeEvent );
+
+			}
+
+			prevPointer = [ event.clientX, event.clientY ];
 
 		}
 
-	}
+		function onMouseUp( event ) {
 
-	function onChange( event ) {
+			document.removeEventListener( 'mousemove', onMouseMove, false );
+			document.removeEventListener( 'mouseup', onMouseUp, false );
 
-		scope.setValue( dom.value );
+			if ( Math.abs( distance ) < 2 ) {
 
-	}
+				dom.focus();
+				dom.select();
 
-	function onFocus( event ) {
+			}
 
-		dom.style.backgroundColor = '';
-		dom.style.cursor = '';
+		}
 
-	}
+		function onChange( event ) {
 
-	function onBlur( event ) {
+			scope.setValue( dom.value );
 
-		dom.style.backgroundColor = 'transparent';
-		dom.style.cursor = 'col-resize';
+		}
 
-	}
+		function onFocus( event ) {
 
-	onBlur();
+			dom.style.backgroundColor = '';
+			dom.style.cursor = '';
 
-	dom.addEventListener( 'mousedown', onMouseDown, false );
-	dom.addEventListener( 'change', onChange, false );
-	dom.addEventListener( 'focus', onFocus, false );
-	dom.addEventListener( 'blur', onBlur, false );
+		}
 
-	return this;
+		function onBlur( event ) {
 
-};
+			dom.style.backgroundColor = 'transparent';
+			dom.style.cursor = 'col-resize';
 
-UI.Number.prototype = Object.create( UI.Element.prototype );
-UI.Number.prototype.constructor = UI.Number;
+		}
 
-UI.Number.prototype.getValue = function () {
+		onBlur();
 
-	return this.value;
+		dom.addEventListener( 'mousedown', onMouseDown, false );
+		dom.addEventListener( 'change', onChange, false );
+		dom.addEventListener( 'focus', onFocus, false );
+		dom.addEventListener( 'blur', onBlur, false );
 
-};
-
-UI.Number.prototype.setValue = function ( value ) {
-
-	if ( value !== undefined ) {
-
-		value = parseFloat( value );
-
-		if ( value < this.min ) value = this.min;
-		if ( value > this.max ) value = this.max;
-
-		this.value = value;
-		this.dom.value = value.toFixed( this.precision );
-
-		if ( this.unit !== '' ) this.dom.value += ' ' + this.unit;
+		return this;
 
 	}
 
-	return this;
+	getValue () {
 
-};
+		return this.value;
 
-UI.Number.prototype.setPrecision = function ( precision ) {
+	}
 
-	this.precision = precision;
+	setValue ( value ) {
 
-	return this;
+		if ( value !== undefined ) {
 
-};
+			value = parseFloat( value );
 
-UI.Number.prototype.setStep = function ( step ) {
+			if ( value < this.min ) value = this.min;
+			if ( value > this.max ) value = this.max;
 
-	this.step = step;
+			this.value = value;
+			this.dom.value = value.toFixed( this.precision );
 
-	return this;
+			if ( this.unit !== '' ) this.dom.value += ' ' + this.unit;
 
-};
+		}
 
-UI.Number.prototype.setRange = function ( min, max ) {
+		return this;
 
-	this.min = min;
-	this.max = max;
+	}
 
-	return this;
+	setPrecision ( precision ) {
 
-};
+		this.precision = precision;
 
-UI.Number.prototype.setUnit = function ( unit ) {
+		return this;
 
-	this.unit = unit;
+	}
 
-	return this;
+	setStep ( step ) {
 
-};
+		this.step = step;
+
+		return this;
+
+	}
+
+	setRange ( min, max ) {
+
+		this.min = min;
+		this.max = max;
+
+		return this;
+
+	}
+
+	setUnit ( unit ) {
+
+		this.unit = unit;
+
+		return this;
+
+	}
+
+}
+
 
 // Integer
 
-UI.Integer = function ( number ) {
+UI.Integer = class UIInteger extends UI.Element {
 
-	UI.Element.call( this );
+	constructor( number ) {
 
-	var scope = this;
+		super();
 
-	var dom = document.createElement( 'input' );
-	dom.className = 'Number';
-	dom.value = '0';
+		var scope = this;
 
-	dom.addEventListener( 'keydown', function ( event ) {
+		var dom = document.createElement( 'input' );
+		dom.className = 'Number';
+		dom.value = '0';
 
-		event.stopPropagation();
+		dom.addEventListener( 'keydown', function ( event ) {
 
-	}, false );
+			event.stopPropagation();
 
-	this.value = 0;
+		}, false );
 
-	this.min = - Infinity;
-	this.max = Infinity;
+		this.value = 0;
 
-	this.step = 1;
+		this.min = - Infinity;
+		this.max = Infinity;
 
-	this.dom = dom;
+		this.step = 1;
 
-	this.setValue( number );
+		this.dom = dom;
 
-	var changeEvent = document.createEvent( 'HTMLEvents' );
-	changeEvent.initEvent( 'change', true, true );
+		this.setValue( number );
 
-	var distance = 0;
-	var onMouseDownValue = 0;
+		var changeEvent = document.createEvent( 'HTMLEvents' );
+		changeEvent.initEvent( 'change', true, true );
 
-	var pointer = [ 0, 0 ];
-	var prevPointer = [ 0, 0 ];
+		var distance = 0;
+		var onMouseDownValue = 0;
 
-	function onMouseDown( event ) {
+		var pointer = [ 0, 0 ];
+		var prevPointer = [ 0, 0 ];
 
-		event.preventDefault();
+		function onMouseDown( event ) {
 
-		distance = 0;
+			event.preventDefault();
 
-		onMouseDownValue = scope.value;
+			distance = 0;
 
-		prevPointer = [ event.clientX, event.clientY ];
+			onMouseDownValue = scope.value;
 
-		document.addEventListener( 'mousemove', onMouseMove, false );
-		document.addEventListener( 'mouseup', onMouseUp, false );
+			prevPointer = [ event.clientX, event.clientY ];
 
-	}
-
-	function onMouseMove( event ) {
-
-		var currentValue = scope.value;
-
-		pointer = [ event.clientX, event.clientY ];
-
-		distance += ( pointer[ 0 ] - prevPointer[ 0 ] ) - ( pointer[ 1 ] - prevPointer[ 1 ] );
-
-		var value = onMouseDownValue + ( distance / ( event.shiftKey ? 5 : 50 ) ) * scope.step;
-		value = Math.min( scope.max, Math.max( scope.min, value ) ) | 0;
-
-		if ( currentValue !== value ) {
-
-			scope.setValue( value );
-			dom.dispatchEvent( changeEvent );
+			document.addEventListener( 'mousemove', onMouseMove, false );
+			document.addEventListener( 'mouseup', onMouseUp, false );
 
 		}
 
-		prevPointer = [ event.clientX, event.clientY ];
+		function onMouseMove( event ) {
 
-	}
+			var currentValue = scope.value;
 
-	function onMouseUp( event ) {
+			pointer = [ event.clientX, event.clientY ];
 
-		document.removeEventListener( 'mousemove', onMouseMove, false );
-		document.removeEventListener( 'mouseup', onMouseUp, false );
+			distance += ( pointer[ 0 ] - prevPointer[ 0 ] ) - ( pointer[ 1 ] - prevPointer[ 1 ] );
 
-		if ( Math.abs( distance ) < 2 ) {
+			var value = onMouseDownValue + ( distance / ( event.shiftKey ? 5 : 50 ) ) * scope.step;
+			value = Math.min( scope.max, Math.max( scope.min, value ) ) | 0;
 
-			dom.focus();
-			dom.select();
+			if ( currentValue !== value ) {
+
+				scope.setValue( value );
+				dom.dispatchEvent( changeEvent );
+
+			}
+
+			prevPointer = [ event.clientX, event.clientY ];
 
 		}
 
-	}
+		function onMouseUp( event ) {
 
-	function onChange( event ) {
+			document.removeEventListener( 'mousemove', onMouseMove, false );
+			document.removeEventListener( 'mouseup', onMouseUp, false );
 
-		scope.setValue( dom.value );
+			if ( Math.abs( distance ) < 2 ) {
 
-	}
+				dom.focus();
+				dom.select();
 
-	function onFocus( event ) {
+			}
 
-		dom.style.backgroundColor = '';
-		dom.style.cursor = '';
+		}
 
-	}
+		function onChange( event ) {
 
-	function onBlur( event ) {
+			scope.setValue( dom.value );
 
-		dom.style.backgroundColor = 'transparent';
-		dom.style.cursor = 'col-resize';
+		}
 
-	}
+		function onFocus( event ) {
 
-	onBlur();
+			dom.style.backgroundColor = '';
+			dom.style.cursor = '';
 
-	dom.addEventListener( 'mousedown', onMouseDown, false );
-	dom.addEventListener( 'change', onChange, false );
-	dom.addEventListener( 'focus', onFocus, false );
-	dom.addEventListener( 'blur', onBlur, false );
+		}
 
-	return this;
+		function onBlur( event ) {
 
-};
+			dom.style.backgroundColor = 'transparent';
+			dom.style.cursor = 'col-resize';
 
-UI.Integer.prototype = Object.create( UI.Element.prototype );
-UI.Integer.prototype.constructor = UI.Integer;
+		}
 
-UI.Integer.prototype.getValue = function () {
+		onBlur();
 
-	return this.value;
+		dom.addEventListener( 'mousedown', onMouseDown, false );
+		dom.addEventListener( 'change', onChange, false );
+		dom.addEventListener( 'focus', onFocus, false );
+		dom.addEventListener( 'blur', onBlur, false );
 
-};
-
-UI.Integer.prototype.setValue = function ( value ) {
-
-	if ( value !== undefined ) {
-
-		value = parseInt( value );
-
-		this.value = value;
-		this.dom.value = value;
+		return this;
 
 	}
 
-	return this;
+	getValue () {
 
-};
+		return this.value;
 
-UI.Integer.prototype.setStep = function ( step ) {
-	
-	this.step = parseInt( step ); 
-	
-	return this;
+	}
 
-};
+	setValue ( value ) {
 
-UI.Integer.prototype.setRange = function ( min, max ) {
+		if ( value !== undefined ) {
 
-	this.min = min;
-	this.max = max;
+			value = parseInt( value );
 
-	return this;
+			this.value = value;
+			this.dom.value = value;
 
-};
+		}
+
+		return this;
+
+	}
+
+	setStep ( step ) {
+
+		this.step = parseInt( step ); 
+
+		return this;
+
+	}
+
+	setRange ( min, max ) {
+
+		this.min = min;
+		this.max = max;
+
+		return this;
+
+	}
+
+}
 
 
 // Break
 
-UI.Break = function () {
+UI.Break = class UIBreak extends UI.Element {
+	
+	constructor() {
 
-	UI.Element.call( this );
+		super( 'br' );
 
-	var dom = document.createElement( 'br' );
-	dom.className = 'Break';
+		this.dom.className = 'Break';
 
-	this.dom = dom;
+	}
 
-	return this;
-
-};
-
-UI.Break.prototype = Object.create( UI.Element.prototype );
-UI.Break.prototype.constructor = UI.Break;
+}
 
 
 // HorizontalRule
 
-UI.HorizontalRule = function () {
+UI.HorizontalRule = class UIHorizontalRule extends UI.Element {
 
-	UI.Element.call( this );
+	constructor() {
 
-	var dom = document.createElement( 'hr' );
-	dom.className = 'HorizontalRule';
+		super( 'hr' );
 
-	this.dom = dom;
+		this.dom.className = 'HorizontalRule';
 
-	return this;
+	}
 
-};
-
-UI.HorizontalRule.prototype = Object.create( UI.Element.prototype );
-UI.HorizontalRule.prototype.constructor = UI.HorizontalRule;
+}
 
 
 // Button
 
-UI.Button = function ( value ) {
+UI.Button = class UIButton extends UI.Element {
 
-	UI.Element.call( this );
+	constructor( value ) {
 
-	var dom = document.createElement( 'button' );
-	dom.className = 'Button';
+		super( 'button' );
 
-	this.dom = dom;
-	this.dom.textContent = value;
+		this.dom.className = 'Button';
+		this.dom.textContent = value;
 
-	return this;
+	}
 
-};
+	setLabel ( value ) {
 
-UI.Button.prototype = Object.create( UI.Element.prototype );
-UI.Button.prototype.constructor = UI.Button;
+		this.dom.textContent = value;
 
-UI.Button.prototype.setLabel = function ( value ) {
+		return this;
 
-	this.dom.textContent = value;
+	}
 
-	return this;
-
-};
+}
 
 
 // Modal
 
-UI.Modal = function ( value ) {
+UI.Modal = class UIModal extends UI.Div {
 
-	var scope = this;
+	constructor ( value ) {
 
-	var dom = document.createElement( 'div' );
+		super();
 
-	dom.style.position = 'absolute';
-	dom.style.width = '100%';
-	dom.style.height = '100%';
-	dom.style.backgroundColor = 'rgba(0,0,0,0.5)';
-	dom.style.display = 'none';
-	dom.style.alignItems = 'center';
-	dom.style.justifyContent = 'center';
-	dom.addEventListener( 'click', function ( event ) {
+		var scope = this;
 
-		scope.hide();
+		var dom = this.dom
 
-	} );
+		dom.style.position = 'absolute';
+		dom.style.width = '100%';
+		dom.style.height = '100%';
+		dom.style.backgroundColor = 'rgba(0,0,0,0.5)';
+		dom.style.display = 'none';
+		dom.style.alignItems = 'center';
+		dom.style.justifyContent = 'center';
+		dom.addEventListener( 'click', function ( event ) {
 
-	this.dom = dom;
+			scope.hide();
 
-	this.container = new UI.Panel();
-	this.container.dom.style.width = '200px';
-	this.container.dom.style.padding = '20px';
-	this.container.dom.style.backgroundColor = '#ffffff';
-	this.container.dom.style.boxShadow = '0px 5px 10px rgba(0,0,0,0.5)';
+		} );
 
-	this.add( this.container );
+		this.container = new UI.Panel();
+		this.container.dom.style.width = '200px';
+		this.container.dom.style.padding = '20px';
+		this.container.dom.style.backgroundColor = '#ffffff';
+		this.container.dom.style.boxShadow = '0px 5px 10px rgba(0,0,0,0.5)';
 
-	return this;
+		this.add( this.container );
 
-};
+	}
 
-UI.Modal.prototype = Object.create( UI.Element.prototype );
-UI.Modal.prototype.constructor = UI.Modal;
+	show ( content ) {
 
-UI.Modal.prototype.show = function ( content ) {
+		this.container.clear();
+		this.container.add( content );
 
-	this.container.clear();
-	this.container.add( content );
+		this.dom.style.display = 'flex';
 
-	this.dom.style.display = 'flex';
+		return this;
 
-	return this;
+}
 
-};
+	hide () {
 
-UI.Modal.prototype.hide = function () {
+		this.dom.style.display = 'none';
 
-	this.dom.style.display = 'none';
+		return this;
 
-	return this;
+}
 
-};
+}
+
