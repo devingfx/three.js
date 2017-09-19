@@ -183,39 +183,39 @@ UI.Div = class UIDiv extends UI.Element {
 
 // Row
 
-UI.Row = function () {
+UI.Row = class UIRow extends UI.Element {
 
-	UI.Element.call( this );
+	constructor() {
 
-	var dom = document.createElement( 'div' );
-	dom.className = 'Row';
+		super();
 
-	this.dom = dom;
+		var dom = document.createElement( 'div' );
+		dom.className = 'Row';
 
-	return this;
+		this.dom = dom;
 
-};
+	}
 
-UI.Row.prototype = Object.create( UI.Element.prototype );
-UI.Row.prototype.constructor = UI.Row;
+}
+
 
 // Panel
 
-UI.Panel = function () {
+UI.Panel = class UIPanel extends UI.Element {
 
-	UI.Element.call( this );
+	constructor () {
 
-	var dom = document.createElement( 'div' );
-	dom.className = 'Panel';
+		super();
 
-	this.dom = dom;
+		var dom = document.createElement( 'div' );
+		dom.className = 'Panel';
 
-	return this;
+		this.dom = dom;
 
-};
+	}
 
-UI.Panel.prototype = Object.create( UI.Element.prototype );
-UI.Panel.prototype.constructor = UI.Panel;
+}
+
 
 // Text
 
