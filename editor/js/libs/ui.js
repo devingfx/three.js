@@ -153,33 +153,33 @@ events.forEach( function ( event ) {
 
 // Span
 
-UI.Span = function () {
+UI.Span = class UISpan extends UI.Element {
 
-	UI.Element.call( this );
+	constructor () {
 
-	this.dom = document.createElement( 'span' );
+		super();
 
-	return this;
+		this.dom = document.createElement( 'span' );
 
-};
+	}
 
-UI.Span.prototype = Object.create( UI.Element.prototype );
-UI.Span.prototype.constructor = UI.Span;
+}
+
 
 // Div
 
-UI.Div = function () {
+UI.Div = class UIDiv extends UI.Element {
 
-	UI.Element.call( this );
+	constructor() {
 
-	this.dom = document.createElement( 'div' );
+		super();
 
-	return this;
+		this.dom = document.createElement( 'div' );
 
-};
+	}
 
-UI.Div.prototype = Object.create( UI.Element.prototype );
-UI.Div.prototype.constructor = UI.Div;
+}
+
 
 // Row
 
