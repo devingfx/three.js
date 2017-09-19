@@ -219,43 +219,42 @@ UI.Panel = class UIPanel extends UI.Element {
 
 // Text
 
-UI.Text = function ( text ) {
+UI.Text = class UIText extends UI.Element {
 
-	UI.Element.call( this );
+	constructor ( text ) {
 
-	var dom = document.createElement( 'span' );
-	dom.className = 'Text';
-	dom.style.cursor = 'default';
-	dom.style.display = 'inline-block';
-	dom.style.verticalAlign = 'middle';
+		super();
 
-	this.dom = dom;
-	this.setValue( text );
+		var dom = document.createElement( 'span' );
+		dom.className = 'Text';
+		dom.style.cursor = 'default';
+		dom.style.display = 'inline-block';
+		dom.style.verticalAlign = 'middle';
 
-	return this;
-
-};
-
-UI.Text.prototype = Object.create( UI.Element.prototype );
-UI.Text.prototype.constructor = UI.Text;
-
-UI.Text.prototype.getValue = function () {
-
-	return this.dom.textContent;
-
-};
-
-UI.Text.prototype.setValue = function ( value ) {
-
-	if ( value !== undefined ) {
-
-		this.dom.textContent = value;
+		this.dom = dom;
+		this.setValue( text );
 
 	}
 
-	return this;
+	getValue () {
 
-};
+		return this.dom.textContent;
+
+	}
+
+	setValue ( value ) {
+
+		if ( value !== undefined ) {
+
+			this.dom.textContent = value;
+
+		}
+
+		return this;
+
+	}
+
+}
 
 
 // Input
