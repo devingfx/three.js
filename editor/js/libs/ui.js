@@ -1,18 +1,19 @@
 /**
  * @author mrdoob / http://mrdoob.com/
+ * @author devingfx / http://devingfx.com/
  */
 
 var UI = {};
 
-UI.Element = function ( dom ) {
+UI.Element = class UIElement {
 
-	this.dom = dom;
+	constructor( dom ) {
 
-};
+		this.dom = dom;
 
-UI.Element.prototype = {
+	}
 
-	add: function () {
+	add () {
 
 		for ( var i = 0; i < arguments.length; i ++ ) {
 
@@ -32,9 +33,9 @@ UI.Element.prototype = {
 
 		return this;
 
-	},
+	}
 
-	remove: function () {
+	remove () {
 
 		for ( var i = 0; i < arguments.length; i ++ ) {
 
@@ -54,9 +55,9 @@ UI.Element.prototype = {
 
 		return this;
 
-	},
+	}
 
-	clear: function () {
+	clear () {
 
 		while ( this.dom.children.length ) {
 
@@ -64,25 +65,25 @@ UI.Element.prototype = {
 
 		}
 
-	},
+	}
 
-	setId: function ( id ) {
+	setId ( id ) {
 
 		this.dom.id = id;
 
 		return this;
 
-	},
+	}
 
-	setClass: function ( name ) {
+	setClass ( name ) {
 
 		this.dom.className = name;
 
 		return this;
 
-	},
+	}
 
-	setStyle: function ( style, array ) {
+	setStyle ( style, array ) {
 
 		for ( var i = 0; i < array.length; i ++ ) {
 
@@ -92,17 +93,17 @@ UI.Element.prototype = {
 
 		return this;
 
-	},
+	}
 
-	setDisabled: function ( value ) {
+	setDisabled ( value ) {
 
 		this.dom.disabled = value;
 
 		return this;
 
-	},
+	}
 
-	setTextContent: function ( value ) {
+	setTextContent ( value ) {
 
 		this.dom.textContent = value;
 
@@ -110,7 +111,7 @@ UI.Element.prototype = {
 
 	}
 
-};
+}
 
 // properties
 
