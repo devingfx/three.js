@@ -9,7 +9,7 @@ UI.Element = class UIElement {
 
 	constructor( dom ) {
 
-		this.dom = dom;
+		this.dom = typeof dom == 'string' ? document.createElement( dom ) : dom;
 
 	}
 
@@ -157,9 +157,7 @@ UI.Span = class UISpan extends UI.Element {
 
 	constructor () {
 
-		super();
-
-		this.dom = document.createElement( 'span' );
+		super( 'span' );
 
 	}
 
@@ -172,9 +170,7 @@ UI.Div = class UIDiv extends UI.Element {
 
 	constructor() {
 
-		super();
-
-		this.dom = document.createElement( 'div' );
+		super( 'div' );
 
 	}
 
@@ -183,16 +179,13 @@ UI.Div = class UIDiv extends UI.Element {
 
 // Row
 
-UI.Row = class UIRow extends UI.Element {
+UI.Row = class UIRow extends UI.Div {
 
 	constructor() {
 
 		super();
 
-		var dom = document.createElement( 'div' );
-		dom.className = 'Row';
-
-		this.dom = dom;
+		this.dom.className = 'Row';
 
 	}
 
@@ -201,16 +194,13 @@ UI.Row = class UIRow extends UI.Element {
 
 // Panel
 
-UI.Panel = class UIPanel extends UI.Element {
+UI.Panel = class UIPanel extends UI.Div {
 
 	constructor () {
 
 		super();
 
-		var dom = document.createElement( 'div' );
-		dom.className = 'Panel';
-
-		this.dom = dom;
+		this.dom.className = 'Panel';
 
 	}
 
@@ -219,19 +209,17 @@ UI.Panel = class UIPanel extends UI.Element {
 
 // Text
 
-UI.Text = class UIText extends UI.Element {
+UI.Text = class UIText extends UI.Span {
 
 	constructor ( text ) {
 
 		super();
 
-		var dom = document.createElement( 'span' );
-		dom.className = 'Text';
-		dom.style.cursor = 'default';
-		dom.style.display = 'inline-block';
-		dom.style.verticalAlign = 'middle';
+		this.dom.className = 'Text';
+		this.dom.style.cursor = 'default';
+		this.dom.style.display = 'inline-block';
+		this.dom.style.verticalAlign = 'middle';
 
-		this.dom = dom;
 		this.setValue( text );
 
 	}
@@ -305,31 +293,31 @@ UI.TextArea = class UITextArea extends UI.Element {
 	constructor( ) {
 
 		super( 'textarea' );
-
+	
 		var scope = this;
-
+	
 		this.dom.className = 'TextArea';
 		this.dom.style.padding = '2px';
 		this.dom.spellcheck = false;
-
+	
 		this.dom.addEventListener( 'keydown', function ( event ) {
-
+	
 			event.stopPropagation();
-
+	
 			if ( event.keyCode === 9 ) {
-
+	
 				event.preventDefault();
-
+	
 				var cursor = scope.dom.selectionStart;
-
+	
 				scope.dom.value = scope.dom.value.substring( 0, cursor ) + '\t' + scope.dom.value.substring( cursor );
 				scope.dom.selectionStart = cursor + 1;
 				scope.dom.selectionEnd = scope.dom.selectionStart;
-
+	
 			}
-
+	
 		}, false );
-
+	
 	}
 
 	getValue () {
